@@ -44,3 +44,25 @@ variable "nat_az" {
   type        = string
   default     = "ap-southeast-2a"
 }
+
+variable "cluster_name" {
+  description = "EKS cluster name"
+  type        = string
+  default     = "llm-lab-eks"
+}
+
+variable "kubernetes_version" {
+  description = "EKS Kubernetes version (newest in standard support, from `aws eks describe-cluster-versions`)"
+  type        = string
+  default     = "1.37"
+}
+
+variable "admin_cidr" {
+  description = "CIDR allowed to reach the public EKS API endpoint (my IP as x.x.x.x/32). Set in terraform.tfvars (gitignored), no default on purpose."
+  type        = string
+
+  validation {
+    condition     = can(cidrhost(var.admin_cidr, 0)) && var.admin_cidr != "0.0.0.0/0"
+    error_message = "Must be a valid CIDR and must not be 0.0.0.0/0."
+  }
+}

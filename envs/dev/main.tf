@@ -8,4 +8,11 @@ module "vpc" {
   nat_az          = var.nat_az
 }
 
-# EKS (terraform-aws-modules/eks/aws, pinned) goes here in Block B.
+module "eks" {
+  source = "../../modules/eks"
+
+  cluster_name       = var.cluster_name
+  kubernetes_version = var.kubernetes_version
+  subnet_ids         = module.vpc.private_subnet_ids
+  admin_cidr         = var.admin_cidr
+}
