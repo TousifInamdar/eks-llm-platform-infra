@@ -5,3 +5,4 @@
 !example.tfvars
 crash.log
 .DS_Store
+*.tfplan
